@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+        <title>2 people</title>
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <h1>2 people</h1>
+
+        <p>
+            Room URL: <br>
+            <code id="url">...</code>
+        </p>
+
+        <!--video class="camera" autoplay></video-->
+        <div id='videos'>
+            <video id='localVideo' autoplay muted></video>
+            <video id='remoteVideo' autoplay></video>
+            <video id='miniVideo' autoplay></video>
+       </div>
+      <div>
+           <button id="startButton">Start</button>
+           <button id="callButton">Call</button>
+           <button id="hangupButton">Hang Up</button>
+      </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/lib/adapter.js"></script>
+        <script src="js/main.js"></script>
+   
+    </body>
+</html>
