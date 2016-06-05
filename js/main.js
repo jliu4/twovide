@@ -134,7 +134,6 @@ function grabWebCamVideo() {
 function getMediaSuccessCallback(stream) {
     
     localVideo.src =  window.URL.createObjectURL(stream);
-    //attachMediaStream(localVideo, stream);
     localStream = stream;
 }
 
@@ -148,6 +147,7 @@ function getMediaErrorCallback(error){
  ****************************************************************************/
 
 var localStream, localPC,  remoteStream;
+
 
 
 function signalingMessageCallback(message) {
@@ -184,10 +184,11 @@ function createPeerConnection(isInitiator, config) {
         }
     };  
      
-    localPC.onaddstream = onRemoteStreamAdded;
+    localPC.ontrack = onRemoteStreamAdded;
+    localPC.addStream(remoteStream);
     if (isInitiator) {
         console.log('Creating an offer');
-        localPC.addStream(localStream);
+        //localPC.addStream(RStream);
 
         localPC.createOffer(onLocalSessionCreated, logError);
         
@@ -210,9 +211,9 @@ function onRemoteStreamAdded(event) {
     
       console.log("onmessage");
       //miniVideo.src = localVideo.src;
-      //remoteVideo.src = URL.createObjectURL(event.stream);
-       //miniVideo.src = localVideo.src;
-      attachMediaStream(remoteVideo, event.stream);
+      remoteVideo.src = URL.createObjectURL(event.stream);
+       //miniVideo.src = remoteVideo.src;
+      //attachMediaStream(remoteVideo, event.stream);
       remoteStream = event.stream;
        //waitForRemoteVideo();
    
