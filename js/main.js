@@ -194,7 +194,7 @@ localPC.addStream(localStream);
         
     } else {
         //localPC.onaddstream = onRemoteStreamAdded;
-        localPC.addStream(remoteStream);
+        localPC.addStream(localStream);
     }
            
 }
