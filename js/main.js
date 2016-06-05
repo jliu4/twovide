@@ -210,11 +210,12 @@ function onLocalSessionCreated(desc) {
 function onRemoteStreamAdded(event) {
     
       console.log("onmessage");
+      remoteStream = event.streams[0];
       //miniVideo.src = localVideo.src;
-      remoteVideo.src = URL.createObjectURL(event.stream);
+      remoteVideo.src = URL.createObjectURL(remoteStream);
        //miniVideo.src = remoteVideo.src;
       //attachMediaStream(remoteVideo, event.stream);
-      remoteStream = event.stream;
+      
        //waitForRemoteVideo();
    
     //
