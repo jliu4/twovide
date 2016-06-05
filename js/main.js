@@ -185,7 +185,7 @@ function createPeerConnection(isInitiator, config) {
     };  
      
     localPC.ontrack = onRemoteStreamAdded;
-    localPC.addStream(remoteStream);
+    localPC.addStream(localStream);
     if (isInitiator) {
         console.log('Creating an offer');
         //localPC.addStream(RStream);
