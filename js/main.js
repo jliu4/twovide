@@ -3,18 +3,8 @@
  ****************************************************************************/
 'use strict';
 
-var width = 320;
+var width = 120;
 var height = 0;
-
-var streaming = false;
-
-var video_constraints = {
-  mandatory: {
-    maxHeight: 240,
-    maxWidth: 240 
-  },
-  optional: []
-};
 
 var iceServers = [];
 
@@ -42,9 +32,10 @@ var config = {'iceServers': iceServers},
     roomURL = document.getElementById('url'),
     localVideo = document.getElementsByTagName('video')[0],
     remoteVideo = document.getElementsByTagName('video')[1],
-    canvas = document.getElementById('canvas'),
     photo = document.getElementById('photo'),
-    photoBtn =document.getElementById("photoButton");
+    photoContext = photo.getContext('2d'),
+    trail = document.getElementById('trail'),
+    snapAndSendBtn = document.getElementById('snapAndSend');
 
 // Create a random room if not already present in the URL.
 var isInitiator;
@@ -152,6 +143,7 @@ function errorCallback(error){
     console.debug("getUserMedia error:", error);
 }
 
+var streaming = false;
 
 localVideo.addEventListener('canplay', function(ev){
     if (!streaming) {
@@ -166,51 +158,30 @@ localVideo.addEventListener('canplay', function(ev){
       
         localVideo.setAttribute('width', width);
         localVideo.setAttribute('height', height);
-        canvas.setAttribute('width', width);
-        canvas.setAttribute('height', height);
+        photo.setAttribute('width', width);
+        photo.setAttribute('height', height);
         streaming = true;
     }
 }, false);
 
-photoButton.addEventListener('click', function(ev){
-    takepicture();
-    ev.preventDefault();
-}, false);
-    
-clearphoto();
- function clearphoto() {
+
+function clearphoto() {
     var context = canvas.getContext('2d');
     context.fillStyle = "#AAA";
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     var data = canvas.toDataURL('image/png');
     photo.setAttribute('src', data);
-  }
-  
-  // Capture a photo by fetching the current contents of the video
-  // and drawing it into a canvas, then converting that to a PNG
-  // format data URL. By drawing it on an offscreen canvas and then
-  // drawing that to the screen, we can change its size and/or apply
-  // other changes before drawing it.
-
-  function takepicture() {
-    var context = canvas.getContext('2d');
-    if (width && height) {
-      canvas.width = width;
-      canvas.height = height;
-      context.drawImage(localVideo, 0, 0, width, height);
-    
-      var data = canvas.toDataURL('image/png');
-      photo.setAttribute('src', data);
-    } else {
-      clearphoto();
-    }
-  }
+}
+ 
+snapAndSendBtn.addEventListener('click', snapAndSend); 
+ 
 /**************************************************************************** 
  * WebRTC peer connection and data channel
  ****************************************************************************/
 
-var localStream, localPC
+var localStream, localPC;
+var dataChannel;
 
 function signalingMessageCallback(message) {
     if (message.type === 'offer') {
@@ -251,19 +222,17 @@ function createPeerConnection(isInitiator, config) {
     localPC.ontrack = onRemoteStreamAdded;
 
     if (isInitiator) {
-        console.log('Creating an offer');
-        
-       // onRemoteStreamAdded;
+        dataChannel = localPC.createDataChannel("photos", {});
+        onDataChannelCreated(dataChannel);
 
         localPC.createOffer(onLocalSessionCreated, logError,sdpConstraints);
       
     } else {
-        //localPC.addStream(localStream);
-        
-
-        //onRemoteStreamAdded;
-
-        //localPC.addStream(localStream);
+        localPC.ondatachannel = function (event) {
+            console.log('ondatachannel:', event.channel);
+            dataChannel = event.channel;
+            onDataChannelCreated(dataChannel);
+        };
     }
            
 }
@@ -277,14 +246,109 @@ function onLocalSessionCreated(desc) {
 }
 
 function onRemoteStreamAdded(event) {
-    
-      remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
-      remoteVideo.srcObejct = event.streams[0];
-      remoteVideo.play();
+    remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
+    remoteVideo.srcObejct = event.streams[0];
+    remoteVideo.play();
    
 }
 
+function onDataChannelCreated(channel) {
+    console.log('onDataChannelCreated:', channel);
 
+    channel.onopen = function () {
+        console.log('CHANNEL opened!!!');
+    };
+
+    channel.onerror = function (err) {
+        console.error("Channel Error:", err);
+    };
+    console.log("adapter.js says this is " + adapter.browserDetails.browser + " " + adapter.browserDetails.version);
+    channel.onmessage = receiveData();
+}
+
+function receiveData() {
+    var buf, count;
+    return function onmessage(event) {
+        var data = new Uint8ClampedArray(event.data);
+        buf.set(data, count);
+
+        count += data.byteLength;
+        console.log('count: ' + count);
+
+        if (count === buf.byteLength) {
+            // we're done: all data chunks have been received
+            console.log('Done. Rendering photo.');
+            renderPhoto(buf);
+        }
+    
+    }
+}
+function sendPhoto() {
+    // Split data channel message in chunks of this byte length.
+    var CHUNK_LEN = 64000;
+
+    var img = photoContext.getImageData(0, 0, photoContextW, photoContextH),
+        len = img.data.byteLength,
+        n = len / CHUNK_LEN | 0;
+
+    console.log('Sending a total of ' + len + ' byte(s)');
+    dataChannel.send(len);
+
+    // split the photo and send in chunks of about 64KB
+    for (var i = 0; i < n; i++) {
+        var start = i * CHUNK_LEN,
+            end = (i+1) * CHUNK_LEN;
+        console.log(start + ' - ' + (end-1));
+        dataChannel.send(img.data.subarray(start, end));
+    }
+
+    // send the reminder, if any
+    if (len % CHUNK_LEN) {
+        console.log('last ' + len % CHUNK_LEN + ' byte(s)');
+        dataChannel.send(img.data.subarray(n * CHUNK_LEN));
+    }
+}
+
+function snapAndSend() {
+    snapPhoto();
+    sendPhoto();
+}
+
+
+function renderPhoto(data) {
+    var canvas = document.createElement('canvas');
+    canvas.classList.add('photo');
+    trail.insertBefore(canvas, trail.firstChild);
+
+    var context = canvas.getContext('2d');
+    var img = context.createImageData(photoContextW, photoContextH);
+    img.data.set(data);
+    context.putImageData(img, 0, 0);
+}
+
+function setCanvasDimensions() {
+    if (localVideo.videoWidth == 0) {
+        setTimeout(setCanvasDimensions, 200);
+        return;
+    }
+    
+    console.log('video width:', localVideo.videoWidth, 'height:', localVideo.videoHeight)
+
+    width = localVideo.videoWidth / 2;
+    height = localVideo.videoHeight / 2;
+  
+
+function show() {
+    Array.prototype.forEach.call(arguments, function(elem){
+        elem.style.display = null;
+    });
+}
+
+function hide() {
+    Array.prototype.forEach.call(arguments, function(elem){
+        elem.style.display = 'none';
+    });
+}
 
 /**************************************************************************** 
  * Aux functions, mostly UI-related
