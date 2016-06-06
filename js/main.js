@@ -214,6 +214,7 @@ function createPeerConnection(isInitiator, config) {
 
     if (isInitiator) {
         dataChannel = localPC.createDataChannel("photos", {});
+
         onDataChannelCreated(dataChannel);
 
         localPC.createOffer(onLocalSessionCreated, logError,sdpConstraints);
@@ -240,7 +241,6 @@ function onRemoteStreamAdded(event) {
     remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
     remoteVideo.srcObejct = event.streams[0];
     remoteVideo.play();
-   
 }
 
 function onDataChannelCreated(channel) {
@@ -274,6 +274,7 @@ function receiveData() {
     
     }
 }
+
 function sendPhoto() {
     // Split data channel message in chunks of this byte length.
     var CHUNK_LEN = 64000;
@@ -328,6 +329,7 @@ function setCanvasDimensions() {
     width = localVideo.videoWidth / 2;
     height = localVideo.videoHeight / 2;
   
+}
 
 function show() {
     Array.prototype.forEach.call(arguments, function(elem){
