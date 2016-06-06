@@ -125,6 +125,11 @@ function updateRoomURL(ipaddr) {
 /**************************************************************************** 
  * User media (webcam) 
  ****************************************************************************/
+var sdpConstraints = {
+    offerToReceiveAudio: 1,
+    offerToReceiveVideo: 1,
+    voiceActivityDetection: false  
+};
 
 function grabWebCamVideo() {
     console.log('Getting user media (video) ...');
@@ -175,20 +180,17 @@ function createPeerConnection(isInitiator, config) {
     localPC = new RTCPeerConnection(config);
     
     localPC.onicecandidate = function (event) {
-            console.log('onIceCandidate event:', event);
+        console.log('onIceCandidate event:', event);
         if (event.candidate) {
             sendMessage(event.candidate);
         } else {
             console.log('End of candidates.');
         }
     };  
-     
-    
-    
 
     if (isInitiator) {
         console.log('Creating an offer');
-        localPC.addStream(RStream);
+        localPC.addStream(localStream);
         localPC.ontrack = onRemoteStreamAdded;
 
         localPC.createOffer(onLocalSessionCreated, logError);
@@ -208,7 +210,7 @@ function onLocalSessionCreated(desc) {
     localPC.setLocalDescription(desc, function () {
         console.log('sending local desc:', localPC.localDescription);
         sendMessage(localPC.localDescription);
-    }, logError);
+    }, logError,sdpConstraints);
 }
 
 function onRemoteStreamAdded(event) {
