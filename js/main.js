@@ -221,7 +221,7 @@ function onLocalSessionCreated(desc) {
 
 function onRemoteStreamAdded(event) {
     
-     // remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
+      remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
       remoteVideo.srcObejct = event.streams[0];
       remoteVideo.play();
    
