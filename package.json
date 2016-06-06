@@ -1,5 +1,5 @@
 {
-  "name": "two video",
+  "name": "two",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
