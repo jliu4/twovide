@@ -146,6 +146,7 @@ function successCallback(stream) {
             //video.src =  window.URL.createObjectURL(stream);
     window.stream = stream;
     localVideo.srcObject = stream;
+
     if (localPC && localPC !=undefined ) localPC.addStream(stream);
 }
         
@@ -199,7 +200,7 @@ clearphoto();
     if (width && height) {
       canvas.width = width;
       canvas.height = height;
-      context.drawImage(video, 0, 0, width, height);
+      context.drawImage(localVideo, 0, 0, width, height);
     
       var data = canvas.toDataURL('image/png');
       photo.setAttribute('src', data);
@@ -262,7 +263,7 @@ function createPeerConnection(isInitiator, config) {
         //localPC.addStream(localStream);
         
 
-        //onRemoteStreamAdded;
+        onRemoteStreamAdded;
 
         //localPC.addStream(localStream);
     }
