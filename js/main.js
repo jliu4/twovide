@@ -141,7 +141,7 @@ function getMediaSuccessCallback(stream) {
     localVideo.src =  window.URL.createObjectURL(stream);
     localVideo.srcObject = stream;
     localStream = stream;
-    //if (localPC && localPC !=undefined ) localPC.addStream(stream);
+    if (localPC && localPC !=undefined ) localPC.addStream(stream);
 }
 
 function getMediaErrorCallback(error){
