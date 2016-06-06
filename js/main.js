@@ -138,7 +138,7 @@ var sdpConstraints = {
 };
 
 function grabWebCamVideo() {
-    navigator.mediaDevices.getUserMedia(video: true, audio: true).then(successCallback).catch(errorCallback);
+    navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(successCallback).catch(errorCallback);
 }    
         //stream type is MediaStream
 function successCallback(stream) {
