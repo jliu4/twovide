@@ -189,7 +189,7 @@ function createPeerConnection(isInitiator, config) {
         }
     };  
 
-    //if (localPC && localPC !=undefined && localStream && localStream !=undefined) localPC.addStream(localStream);
+    if (localPC && localPC !=undefined && localStream && localStream !=undefined) localPC.addStream(localStream);
 
     localPC.ontrack = onRemoteStreamAdded;
 
@@ -204,7 +204,7 @@ function createPeerConnection(isInitiator, config) {
         //localPC.addStream(localStream);
         
 
-        onRemoteStreamAdded;
+        //onRemoteStreamAdded;
 
         //localPC.addStream(localStream);
     }
