@@ -193,7 +193,7 @@ function createPeerConnection(isInitiator, config) {
         localPC.addStream(localStream);
         localPC.ontrack = onRemoteStreamAdded;
 
-        localPC.createOffer(onLocalSessionCreated, sdpConstraints);
+        localPC.createOffer(onLocalSessionCreated, logError);
         
     } else {
         localPC.addStream(localStream);
@@ -210,7 +210,7 @@ function onLocalSessionCreated(desc) {
     localPC.setLocalDescription(desc, function () {
         console.log('sending local desc:', localPC.localDescription);
         sendMessage(localPC.localDescription);
-    }, logError);
+    }, sdpConstraints);
 }
 
 function onRemoteStreamAdded(event) {
