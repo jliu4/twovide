@@ -188,12 +188,14 @@ function createPeerConnection(isInitiator, config) {
         }
     };  
 
+    if (localPC) localPC.addStream(localStream);
+
     if (isInitiator) {
         console.log('Creating an offer');
-        localPC.addStream(localStream);
-        //localPC.ontrack = onRemoteStreamAdded;
+        
+        onRemoteStreamAdded;
 
-        localPC.createOffer(onLocalSessionCreated, logError);
+        localPC.createOffer(onLocalSessionCreated, logError,sdpConstraints);
         
     } else {
         //localPC.addStream(localStream);
@@ -210,7 +212,7 @@ function onLocalSessionCreated(desc) {
     localPC.setLocalDescription(desc, function () {
         console.log('sending local desc:', localPC.localDescription);
         sendMessage(localPC.localDescription);
-    }, sdpConstraints);
+    }, logError);
 }
 
 function onRemoteStreamAdded(event) {
