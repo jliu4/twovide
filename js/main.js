@@ -133,7 +133,7 @@ var sdpConstraints = {
 
 function grabWebCamVideo() {
     console.log('Getting user media (video) ...');
-    getUserMedia({video: video_constraints,audio: true }, getMediaSuccessCallback, getMediaErrorCallback);
+    getUserMedia({video: true, audio: true }, getMediaSuccessCallback, getMediaErrorCallback);
 }
 
 function getMediaSuccessCallback(stream) {
@@ -182,12 +182,7 @@ function createPeerConnection(isInitiator, config) {
     localPC.onicecandidate = function (event) {
         console.log('onIceCandidate event:', event);
         if (event.candidate) {
-            //sendMessage(event.candidate);
-            sendMessage({
-                        //JLIU-TODO what is difference just send candidate without JSON
-                        sdpMLineIndex: event.sdpMLineIndex,
-                        candidate: JSON.stringify(event.candidate)
-                    })
+            sendMessage(event.candidate);
         } else {
             console.log('End of candidates.');
         }
@@ -198,7 +193,7 @@ function createPeerConnection(isInitiator, config) {
         localPC.addStream(localStream);
         localPC.ontrack = onRemoteStreamAdded;
 
-        localPC.createOffer(onLocalSessionCreated, logError);
+        localPC.createOffer(onLocalSessionCreated, sdpConstraints);
         
     } else {
         localPC.addStream(localStream);
@@ -215,7 +210,7 @@ function onLocalSessionCreated(desc) {
     localPC.setLocalDescription(desc, function () {
         console.log('sending local desc:', localPC.localDescription);
         sendMessage(localPC.localDescription);
-    }, logError,sdpConstraints);
+    }, logError);
 }
 
 function onRemoteStreamAdded(event) {
