@@ -196,15 +196,16 @@ function createPeerConnection(isInitiator, config) {
     if (isInitiator) {
         console.log('Creating an offer');
         
-        onRemoteStreamAdded;
+       // onRemoteStreamAdded;
 
         localPC.createOffer(onLocalSessionCreated, logError,sdpConstraints);
-        
+      
     } else {
         //localPC.addStream(localStream);
         
 
-        //localPC.ontrack = onRemoteStreamAdded;
+        onRemoteStreamAdded;
+
         //localPC.addStream(localStream);
     }
            
@@ -220,7 +221,6 @@ function onLocalSessionCreated(desc) {
 
 function onRemoteStreamAdded(event) {
     
-      console.log("onmessage");
       remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
       remoteVideo.srcObejct = event.streams[0];
       remoteVideo.play();
