@@ -204,7 +204,7 @@ function createPeerConnection(isInitiator, config) {
         //localPC.addStream(localStream);
         
 
-        //onRemoteStreamAdded;
+        onRemoteStreamAdded;
 
         //localPC.addStream(localStream);
     }
