@@ -146,7 +146,7 @@ function getMediaErrorCallback(error){
  * WebRTC peer connection and data channel
  ****************************************************************************/
 
-var localStream, localPC,  remoteStream;
+var localStream, localPC
 
 
 
@@ -185,16 +185,17 @@ function createPeerConnection(isInitiator, config) {
     };  
      
     localPC.ontrack = onRemoteStreamAdded;
-    
+    if (localStream) localPC.addStream(localStream);
+
     if (isInitiator) {
         console.log('Creating an offer');
         //localPC.addStream(RStream);
-localPC.addStream(localStream);
+        
         localPC.createOffer(onLocalSessionCreated, logError);
         
     } else {
         //localPC.onaddstream = onRemoteStreamAdded;
-        localPC.addStream(localStream);
+        //localPC.addStream(localStream);
     }
            
 }
@@ -210,15 +211,9 @@ function onLocalSessionCreated(desc) {
 function onRemoteStreamAdded(event) {
     
       console.log("onmessage");
-      remoteStream = event.streams[0];
-      //miniVideo.src = localVideo.src;
-      remoteVideo.src = URL.createObjectURL(remoteStream);
-       //miniVideo.src = remoteVideo.src;
-      //attachMediaStream(remoteVideo, event.stream);
-      
-       //waitForRemoteVideo();
    
-    //
+      remoteVideo.src = URL.createObjectURL(event.streams[0]);
+   
 }
 
 
