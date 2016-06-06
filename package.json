@@ -1,14 +1,10 @@
 {
-  "name": "cyclare",
-  "version": "0.1.5",
-  "description": "first",
+  "name": "two video",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "ejs": "2.3.3",
-    "express": "4.13.3",
     "node-static": "0.7.7",
     "socket.io": "1.4.5"
   }
