@@ -182,7 +182,12 @@ function createPeerConnection(isInitiator, config) {
     localPC.onicecandidate = function (event) {
         console.log('onIceCandidate event:', event);
         if (event.candidate) {
-            sendMessage(event.candidate);
+            //sendMessage(event.candidate);
+            sendMessage({
+                        //JLIU-TODO what is difference just send candidate without JSON
+                        sdpMLineIndex: event.sdpMLineIndex,
+                        candidate: JSON.stringify(event.candidate)
+                    })
         } else {
             console.log('End of candidates.');
         }
@@ -218,6 +223,7 @@ function onRemoteStreamAdded(event) {
       console.log("onmessage");
       remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
       remoteVideo.srcObejct = event.streams[0];
+      remoteVideo.play();
    
 }
 
