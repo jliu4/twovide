@@ -134,6 +134,7 @@ function grabWebCamVideo() {
 function getMediaSuccessCallback(stream) {
     
     localVideo.src =  window.URL.createObjectURL(stream);
+    localVideo.srcObject = stream;
     localStream = stream;
 }
 
@@ -184,7 +185,8 @@ function createPeerConnection(isInitiator, config) {
         }
     };  
      
-    
+    localPC.ontrack = onRemoteStreamAdded;
+
     if (localStream) localPC.addStream(localStream);
 
     if (isInitiator) {
@@ -194,7 +196,7 @@ function createPeerConnection(isInitiator, config) {
         localPC.createOffer(onLocalSessionCreated, logError);
         
     } else {
-        localPC.ontrack = onRemoteStreamAdded;
+        //localPC.ontrack = onRemoteStreamAdded;
         //localPC.addStream(localStream);
     }
            
@@ -212,7 +214,7 @@ function onRemoteStreamAdded(event) {
     
       console.log("onmessage");
    
-      remoteVideo.src = URL.createObjectURL(event.streams[0]);
+      remoteVideo.srcObejct = event.streams[0];
    
 }
 
