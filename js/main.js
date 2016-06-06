@@ -3,6 +3,11 @@
  ****************************************************************************/
 'use strict';
 
+var width = 320;
+var height = 0;
+
+var streaming = false;
+
 var video_constraints = {
   mandatory: {
     maxHeight: 240,
@@ -37,8 +42,8 @@ var config = {'iceServers': iceServers},
     roomURL = document.getElementById('url'),
     localVideo = document.getElementsByTagName('video')[0],
     remoteVideo = document.getElementsByTagName('video')[1],
-    miniVideo = document.getElementsByTagName('video')[2],
-    callBtn =document.getElementById("callButton");
+    canvas = document.getElementsById('canvas'),
+    photoBtn =document.getElementById("photoButton");
 
 // Create a random room if not already present in the URL.
 var isInitiator;
@@ -148,7 +153,59 @@ function getMediaErrorCallback(error){
     console.log("getUserMedia error:", error);
 }
 
+localVideo.addEventListener('canplay', function(ev){
+    if (!streaming) {
+        height = localVideo.videoHeight / (localVideo.videoWidth/width);
+      
+        // Firefox currently has a bug where the height can't be read from
+        // the video, so we will make assumptions if this happens.
+      
+        if (isNaN(height)) {
+            height = width / (4/3);
+        }
+      
+        localVideo.setAttribute('width', width);
+        localVideo.setAttribute('height', height);
+        canvas.setAttribute('width', width);
+        canvas.setAttribute('height', height);
+        streaming = true;
+    }
+}, false);
 
+photoButton.addEventListener('click', function(ev){
+    takepicture();
+    ev.preventDefault();
+}, false);
+    
+clearphoto();
+ function clearphoto() {
+    var context = canvas.getContext('2d');
+    context.fillStyle = "#AAA";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    var data = canvas.toDataURL('image/png');
+    photo.setAttribute('src', data);
+  }
+  
+  // Capture a photo by fetching the current contents of the video
+  // and drawing it into a canvas, then converting that to a PNG
+  // format data URL. By drawing it on an offscreen canvas and then
+  // drawing that to the screen, we can change its size and/or apply
+  // other changes before drawing it.
+
+  function takepicture() {
+    var context = canvas.getContext('2d');
+    if (width && height) {
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(video, 0, 0, width, height);
+    
+      var data = canvas.toDataURL('image/png');
+      photo.setAttribute('src', data);
+    } else {
+      clearphoto();
+    }
+  }
 /**************************************************************************** 
  * WebRTC peer connection and data channel
  ****************************************************************************/
