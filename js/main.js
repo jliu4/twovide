@@ -42,7 +42,7 @@ var config = {'iceServers': iceServers},
     roomURL = document.getElementById('url'),
     localVideo = document.getElementsByTagName('video')[0],
     remoteVideo = document.getElementsByTagName('video')[1],
-    canvas = document.getElementsById('canvas'),
+    canvas = document.getElementById('canvas'),
     photoBtn =document.getElementById("photoButton");
 
 // Create a random room if not already present in the URL.
