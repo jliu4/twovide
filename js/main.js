@@ -139,19 +139,19 @@ var sdpConstraints = {
 
 function grabWebCamVideo() {
     console.log('Getting user media (video) ...');
-    getUserMedia({video: true, audio: true }, getMediaSuccessCallback, getMediaErrorCallback);
-}
-
-function getMediaSuccessCallback(stream) {
-    
-    localVideo.src =  window.URL.createObjectURL(stream);
-    localVideo.srcObject = stream;
-    localStream = stream;
-    if (localPC && localPC !=undefined ) localPC.addStream(stream);
-}
-
-function getMediaErrorCallback(error){
-    console.log("getUserMedia error:", error);
+    navigator.mediaDevices.getUserMedia(video: true, audio: true).then(successCallback).catch(errorCallback);
+        //stream type is MediaStream
+        function successCallback(stream) {
+            //var videoTracks = stream.getVideoTracks();
+            //video.src =  window.URL.createObjectURL(stream);
+            window.stream = stream;
+            localVideo.srcObject = stream;
+            if (localPC && localPC !=undefined ) localPC.addStream(stream);
+        }
+        
+        function errorCallback(error){
+             console.debug("getUserMedia error:", error);
+        }
 }
 
 localVideo.addEventListener('canplay', function(ev){
