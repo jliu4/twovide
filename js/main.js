@@ -183,17 +183,20 @@ function createPeerConnection(isInitiator, config) {
         }
     };  
      
-    localPC.ontrack = onRemoteStreamAdded;
-
-    if (localStream) localPC.addStream(localStream);
+    
+    
 
     if (isInitiator) {
         console.log('Creating an offer');
-        //localPC.addStream(RStream);
-        
+        localPC.addStream(RStream);
+        localPC.ontrack = onRemoteStreamAdded;
+
         localPC.createOffer(onLocalSessionCreated, logError);
         
     } else {
+        localPC.addStream(localStream);
+        localPC.ontrack = onRemoteStreamAdded;
+
         //localPC.ontrack = onRemoteStreamAdded;
         //localPC.addStream(localStream);
     }
