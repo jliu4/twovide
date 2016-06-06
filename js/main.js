@@ -142,11 +142,9 @@ function grabWebCamVideo() {
 }    
         //stream type is MediaStream
 function successCallback(stream) {
-            //var videoTracks = stream.getVideoTracks();
-            //video.src =  window.URL.createObjectURL(stream);
-    window.stream = stream;
+    localVideo.src =  window.URL.createObjectURL(stream);
     localVideo.srcObject = stream;
-
+    localStream = stream;
     if (localPC && localPC !=undefined ) localPC.addStream(stream);
 }
         
@@ -263,7 +261,7 @@ function createPeerConnection(isInitiator, config) {
         //localPC.addStream(localStream);
         
 
-        onRemoteStreamAdded;
+        //onRemoteStreamAdded;
 
         //localPC.addStream(localStream);
     }
