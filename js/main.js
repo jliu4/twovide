@@ -149,8 +149,6 @@ function getMediaErrorCallback(error){
 
 var localStream, localPC
 
-
-
 function signalingMessageCallback(message) {
     if (message.type === 'offer') {
         console.log('Got offer. Sending answer to peer.');
@@ -213,7 +211,7 @@ function onLocalSessionCreated(desc) {
 function onRemoteStreamAdded(event) {
     
       console.log("onmessage");
-   
+      remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
       remoteVideo.srcObejct = event.streams[0];
    
 }
