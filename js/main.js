@@ -141,6 +141,7 @@ function getMediaSuccessCallback(stream) {
     localVideo.src =  window.URL.createObjectURL(stream);
     localVideo.srcObject = stream;
     localStream = stream;
+    if (localPC && localPC !=undefined ) localPC.addStream(stream);
 }
 
 function getMediaErrorCallback(error){
@@ -190,6 +191,8 @@ function createPeerConnection(isInitiator, config) {
 
     if (localPC && localPC !=undefined && localStream && localStream !=undefined) localPC.addStream(localStream);
 
+    localPC.ontrack = onRemoteStreamAdded;
+
     if (isInitiator) {
         console.log('Creating an offer');
         
@@ -199,7 +202,7 @@ function createPeerConnection(isInitiator, config) {
         
     } else {
         //localPC.addStream(localStream);
-        localPC.ontrack = onRemoteStreamAdded;
+        
 
         //localPC.ontrack = onRemoteStreamAdded;
         //localPC.addStream(localStream);
