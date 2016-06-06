@@ -138,21 +138,21 @@ var sdpConstraints = {
 };
 
 function grabWebCamVideo() {
-    console.log('Getting user media (video) ...');
     navigator.mediaDevices.getUserMedia(video: true, audio: true).then(successCallback).catch(errorCallback);
+}    
         //stream type is MediaStream
-        function successCallback(stream) {
+function successCallback(stream) {
             //var videoTracks = stream.getVideoTracks();
             //video.src =  window.URL.createObjectURL(stream);
-            window.stream = stream;
-            localVideo.srcObject = stream;
-            if (localPC && localPC !=undefined ) localPC.addStream(stream);
-        }
-        
-        function errorCallback(error){
-             console.debug("getUserMedia error:", error);
-        }
+    window.stream = stream;
+    localVideo.srcObject = stream;
+    if (localPC && localPC !=undefined ) localPC.addStream(stream);
 }
+        
+function errorCallback(error){
+    console.debug("getUserMedia error:", error);
+}
+
 
 localVideo.addEventListener('canplay', function(ev){
     if (!streaming) {
