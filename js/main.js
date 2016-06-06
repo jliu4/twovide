@@ -191,12 +191,12 @@ function createPeerConnection(isInitiator, config) {
     if (isInitiator) {
         console.log('Creating an offer');
         localPC.addStream(localStream);
-        localPC.ontrack = onRemoteStreamAdded;
+        //localPC.ontrack = onRemoteStreamAdded;
 
         localPC.createOffer(onLocalSessionCreated, logError);
         
     } else {
-        localPC.addStream(localStream);
+        //localPC.addStream(localStream);
         localPC.ontrack = onRemoteStreamAdded;
 
         //localPC.ontrack = onRemoteStreamAdded;
