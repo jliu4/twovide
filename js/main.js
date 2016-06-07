@@ -51,9 +51,11 @@ function handleKey(evt) {
 }
 
 function sendText() {
-  var data = document.getElementById("text").value;
-  dataChannel.send(data);
-  document.getElementById("text").value = "";
+    var whom = "2: ";
+    if (initiator) whom = "1: "; 
+    var data = whom + document.getElementById("text").value;
+    dataChannel.send(data);
+    document.getElementById("text").value = "";
 }
 
 // Create a random room if not already present in the URL.
