@@ -48,8 +48,8 @@ var config = {'iceServers': iceServers},
 
 // Create a random room if not already present in the URL.
 var isInitiator;
-//var room = window.location.hash.substring(1);
-var room = 'jinliu---';
+var room = window.location.hash.substring(1);
+// var room = 'jinliu---';
 if (!room) {
    room = window.location.hash = randomToken();
     //room = 'jinliu';
