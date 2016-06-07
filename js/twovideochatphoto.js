@@ -44,19 +44,7 @@ var config = {'iceServers': iceServers},
  //   document.getElementById("chatbox").contentWindow.scrollByPages(1);
 //}
 
-function handleKey(evt) {
-  if (evt.keyCode === 13 || evt.keyCode === 14) {
-      sendText();
-  }
-}
 
-function sendText() {
-    var whom = "2: ";
-    if (isInitiator) whom = "1: "; 
-    var data = whom + document.getElementById("text").value;
-    dataChannel.send(data);
-    document.getElementById("text").value = "";
-}
 
 // Create a random room if not already present in the URL.
 var isInitiator;
@@ -309,6 +297,21 @@ function receiveData() {
     }
 }
 
+function handleKey(evt) {
+  if (evt.keyCode === 13 || evt.keyCode === 14) {
+      sendText();
+  }
+}
+var chatbox = document.getElementById("chatbox");
+
+function sendText() {
+    var whom = "2: ";
+    if (isInitiator) whom = "1: "; 
+    var data = whom + document.getElementById("text").value +"\n";
+    chatbox.append(data);
+    dataChannel.send(chatbox);
+    document.getElementById("text").value = "";
+}
 function snapPhoto() {
     photoContext.drawImage(localVideo, 0, 0, width, height);
     //show(photo, sendBtn);
