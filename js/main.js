@@ -328,25 +328,14 @@ function renderPhoto(data) {
     var canvas = document.createElement('canvas');
     canvas.classList.add('photo');
     trail.insertBefore(canvas, trail.firstChild);
-
+    canvas.width = width;
+    canvas.height = height;
     var context = canvas.getContext('2d');
     var img = context.createImageData(width, height);
     img.data.set(data);
     context.putImageData(img, 0, 0);
 }
 
-function setCanvasDimensions() {
-    if (localVideo.videoWidth == 0) {
-        setTimeout(setCanvasDimensions, 200);
-        return;
-    }
-    
-    console.log('video width:', localVideo.width, 'height:', localVideo.height)
-
-   //width = localVideo.videoWidth / 2;
-   //height = localVideo.videoHeight / 2;
-  
-}
 
 function show() {
     Array.prototype.forEach.call(arguments, function(elem){
