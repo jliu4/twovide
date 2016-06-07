@@ -250,9 +250,7 @@ function onLocalSessionCreated(desc) {
 function onRemoteStreamAdded(event) {
     remoteVideo.setAttribute('height',height);
     remoteVideo.setAttribute('width',width);
-    //remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
     remoteVideo.srcObject = event.streams[0];
-    //remoteVideo.play();
 }
 
 function onDataChannelCreated(channel) {
@@ -269,13 +267,15 @@ function onDataChannelCreated(channel) {
     channel.onmessage = receiveData();
 }
 
+var el = document.createElement("p");
+
 function receiveData() {
     var buf, count;
     return function onmessage(event) {
         if (typeof event.data === 'string') {
-            var el = document.createElement("p");
+            
             var textNode = document.createTextNode(event.data);
-            el.appendChild(textNode);
+            el.insertBefore(textNode,el.firstChild);
             //chatFrameDocument.write(event.data);
            // document.getElementById("chatbox").contentWindow.scrollByPages(1);
             chatbox.insertBefore(el, chatbox.firstChild);
