@@ -37,12 +37,12 @@ var config = {'iceServers': iceServers},
     trail = document.getElementById('trail'),
     snapAndSendBtn = document.getElementById('snapAndSend'),
     chatFrameDocument = document.getElementById("chatbox").contentDocument;
-    text =  document.getElementById("text");
+    //text =  document.getElementById("text");
 
-if (text.length) {
-    chatFrameDocument.write(text);
-    document.getElementById("chatbox").contentWindow.scrollByPages(1);
-}
+//if (text.length) {
+ //   chatFrameDocument.write(text);
+ //   document.getElementById("chatbox").contentWindow.scrollByPages(1);
+//}
 
 function handleKey(evt) {
   if (evt.keyCode === 13 || evt.keyCode === 14) {
