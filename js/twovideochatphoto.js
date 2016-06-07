@@ -273,9 +273,12 @@ function receiveData() {
     var buf, count;
     return function onmessage(event) {
         if (typeof event.data === 'string') {
-            chatFrameDocument.write(event.data);
-            document.getElementById("chatbox").contentWindow.scrollByPages(1);
-           // document.getElementById("").value = event.data;
+            var el = document.createElement("p");
+            var textNode = document.createTextNode(event.data);
+            el.appendChild(textNode);
+            //chatFrameDocument.write(event.data);
+           // document.getElementById("chatbox").contentWindow.scrollByPages(1);
+            document.getElementById("chatbox").appendChild(el);
             buf = window.buf = new Uint8ClampedArray(parseInt(event.data));
             count = 0;
             console.log('Expecting a total of ' + buf.byteLength + ' bytes');
@@ -302,14 +305,13 @@ function handleKey(evt) {
       sendText();
   }
 }
-var chatbox = document.getElementById("chatbox");
+
 
 function sendText() {
     var whom = "2: ";
     if (isInitiator) whom = "1: "; 
     var data = whom + document.getElementById("text").value +"\n";
-    //chatbox.insertBefore(data, chatbox.firstChild);
-    dataChannel.send(data);
+       dataChannel.send(data);
     document.getElementById("text").value = "";
 }
 function snapPhoto() {
