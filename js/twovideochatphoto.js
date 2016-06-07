@@ -36,7 +36,7 @@ var config = {'iceServers': iceServers},
     photoContext = photo.getContext('2d'),
     trail = document.getElementById('trail'),
     snapAndSendBtn = document.getElementById('snapAndSend'),
-    chatFrameDocument = document.getElementById("chatbox").contentDocument;
+    chatbox = document.getElementById("chat-container");
     //text =  document.getElementById("text");
 
 //if (text.length) {
@@ -143,7 +143,7 @@ function grabWebCamVideo() {
 }    
         //stream type is MediaStream
 function successCallback(stream) {
-    localVideo.src =  window.URL.createObjectURL(stream);
+    //localVideo.src =  window.URL.createObjectURL(stream);
     localVideo.srcObject = stream;
     localStream = stream;
     if (localPC && localPC !=undefined ) localPC.addStream(stream);
@@ -250,9 +250,9 @@ function onLocalSessionCreated(desc) {
 function onRemoteStreamAdded(event) {
     remoteVideo.setAttribute('height',height);
     remoteVideo.setAttribute('width',width);
-    remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
+    //remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
     remoteVideo.srcObejct = event.streams[0];
-    remoteVideo.play();
+    //remoteVideo.play();
 }
 
 function onDataChannelCreated(channel) {
@@ -278,7 +278,7 @@ function receiveData() {
             el.appendChild(textNode);
             //chatFrameDocument.write(event.data);
            // document.getElementById("chatbox").contentWindow.scrollByPages(1);
-            document.getElementById("chatbox").appendChild(el);
+            chatbox.appendChild(el);
             buf = window.buf = new Uint8ClampedArray(parseInt(event.data));
             count = 0;
             console.log('Expecting a total of ' + buf.byteLength + ' bytes');
