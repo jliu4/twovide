@@ -36,7 +36,7 @@ var config = {'iceServers': iceServers},
     photoContext = photo.getContext('2d'),
     trail = document.getElementById('trail'),
     snapAndSendBtn = document.getElementById('snapAndSend'),
-    chatbox = document.getElementById("chat-container");
+    chatbox = document.getElementById("chatbox");
     //text =  document.getElementById("text");
 
 //if (text.length) {
@@ -252,7 +252,7 @@ function onRemoteStreamAdded(event) {
     remoteVideo.setAttribute('width',width);
     //remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
     remoteVideo.srcObejct = event.streams[0];
-    //remoteVideo.play();
+    remoteVideo.play();
 }
 
 function onDataChannelCreated(channel) {
@@ -278,7 +278,7 @@ function receiveData() {
             el.appendChild(textNode);
             //chatFrameDocument.write(event.data);
            // document.getElementById("chatbox").contentWindow.scrollByPages(1);
-            chatbox.appendChild(el);
+            chatbox.insertBefore(el, chatbox.childNotes[0]);
             buf = window.buf = new Uint8ClampedArray(parseInt(event.data));
             count = 0;
             console.log('Expecting a total of ' + buf.byteLength + ' bytes');
