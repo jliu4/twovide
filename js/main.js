@@ -35,7 +35,26 @@ var config = {'iceServers': iceServers},
     photo = document.getElementById('photo'),
     photoContext = photo.getContext('2d'),
     trail = document.getElementById('trail'),
-    snapAndSendBtn = document.getElementById('snapAndSend');
+    snapAndSendBtn = document.getElementById('snapAndSend'),
+    chatFrameDocument = document.getElementById("chatbox").contentDocument;
+    text =  document.getElementById("text");
+
+if (text.length) {
+    chatFrameDocument.write(text);
+    document.getElementById("chatbox").contentWindow.scrollByPages(1);
+}
+
+function handleKey(evt) {
+  if (evt.keyCode === 13 || evt.keyCode === 14) {
+      sendText();
+  }
+}
+
+function sendText() {
+  var data = document.getElementById("text").value;
+  dataChannel.send(data);
+  document.getElementById("text").value = "";
+}
 
 // Create a random room if not already present in the URL.
 var isInitiator;
@@ -264,7 +283,9 @@ function receiveData() {
     var buf, count;
     return function onmessage(event) {
         if (typeof event.data === 'string') {
-      
+            chatFrameDocument.write(event.data);
+            document.getElementById("chatbox").contentWindow.scrollByPages(1);
+           // document.getElementById("").value = event.data;
             buf = window.buf = new Uint8ClampedArray(parseInt(event.data));
             count = 0;
             console.log('Expecting a total of ' + buf.byteLength + ' bytes');

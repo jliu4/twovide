@@ -21,8 +21,15 @@
         </canvas>
        
       <div>
+         <input id="text" type="text" name="text" size="80" maxlength="256"
+          placeholder="Chat with us!" autocomplete="off" onkeyup="handleKey(event)">
            <button id="snapAndSend">snap picture & send</button>
            <button id="hangupButton">Hang Up</button>
+
+      </div>
+    
+      <div class="flexChild" id="chat-container">
+          <iframe id="chatbox"></iframe>
       </div>
       <div class="incoming">
             <h2>Incoming photos</h2>
