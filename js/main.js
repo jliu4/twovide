@@ -276,7 +276,7 @@ function receiveData() {
 }
 
 function snapPhoto() {
-    photoContext.drawImage(video, 0, 0, width, height);
+    photoContext.drawImage(localVideo, 0, 0, width, height);
     //show(photo, sendBtn);
     show(photo);
 }
