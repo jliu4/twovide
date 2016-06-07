@@ -275,6 +275,12 @@ function receiveData() {
     }
 }
 
+function snapPhoto() {
+    photoContext.drawImage(video, 0, 0, width, height);
+    //show(photo, sendBtn);
+    show(photo);
+}
+
 function sendPhoto() {
     // Split data channel message in chunks of this byte length.
     var CHUNK_LEN = 64000;
