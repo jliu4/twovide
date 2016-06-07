@@ -251,8 +251,8 @@ function onRemoteStreamAdded(event) {
     remoteVideo.setAttribute('height',height);
     remoteVideo.setAttribute('width',width);
     //remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
-    remoteVideo.srcObejct = event.streams[0];
-    remoteVideo.play();
+    remoteVideo.srcObject = event.streams[0];
+    //remoteVideo.play();
 }
 
 function onDataChannelCreated(channel) {
@@ -278,7 +278,7 @@ function receiveData() {
             el.appendChild(textNode);
             //chatFrameDocument.write(event.data);
            // document.getElementById("chatbox").contentWindow.scrollByPages(1);
-            chatbox.insertBefore(el, chatbox.childNotes[0]);
+            chatbox.insertBefore(el, chatbox.firstChild);
             buf = window.buf = new Uint8ClampedArray(parseInt(event.data));
             count = 0;
             console.log('Expecting a total of ' + buf.byteLength + ' bytes');
