@@ -4,7 +4,7 @@
 'use strict';
 
 var width = 120;
-var height = 0;
+var height =120;
 
 var iceServers = [];
 
@@ -129,6 +129,7 @@ var sdpConstraints = {
 };
 
 function grabWebCamVideo() {
+
     navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(successCallback).catch(errorCallback);
 }    
         //stream type is MediaStream
@@ -238,6 +239,8 @@ function onLocalSessionCreated(desc) {
 }
 
 function onRemoteStreamAdded(event) {
+    remoteVideo.setAttribute('height',height);
+    remoteVideo.setAttribute('width',width);
     remoteVideo.src =  window.URL.createObjectURL(event.streams[0]);
     remoteVideo.srcObejct = event.streams[0];
     remoteVideo.play();
@@ -285,7 +288,7 @@ function sendPhoto() {
     // Split data channel message in chunks of this byte length.
     var CHUNK_LEN = 64000;
 
-    var img = photoContext.getImageData(0, 0, photoContextW, photoContextH),
+    var img = photoContext.getImageData(0, 0, width, height),
         len = img.data.byteLength,
         n = len / CHUNK_LEN | 0;
 
