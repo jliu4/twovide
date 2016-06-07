@@ -264,14 +264,13 @@ function receiveData() {
     var buf, count;
     return function onmessage(event) {
         if (typeof event.data === 'string') {
-            document.getElementById("dataChannelReceive").value = event.data;
       
             buf = window.buf = new Uint8ClampedArray(parseInt(event.data));
             count = 0;
             console.log('Expecting a total of ' + buf.byteLength + ' bytes');
             return;
         }
-        
+
         var data = new Uint8ClampedArray(event.data);
         buf.set(data, count);
 
