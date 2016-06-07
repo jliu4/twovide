@@ -3,8 +3,8 @@
  ****************************************************************************/
 'use strict';
 
-var width = 120;
-var height =120;
+var width = 240;
+var height =240;
 
 var iceServers = [];
 
@@ -336,15 +336,15 @@ function renderPhoto(data) {
 }
 
 function setCanvasDimensions() {
-    if (localVideo.width == 0) {
-        setTimeout(setCanvasDimensions, width);
+    if (localVideo.videoWidth == 0) {
+        setTimeout(setCanvasDimensions, 200);
         return;
     }
     
     console.log('video width:', localVideo.width, 'height:', localVideo.height)
 
-   // width = localVideo.videoWidth / 2;
-   // height = localVideo.videoHeight / 2;
+   //width = localVideo.videoWidth / 2;
+   //height = localVideo.videoHeight / 2;
   
 }
 
