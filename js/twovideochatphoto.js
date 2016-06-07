@@ -308,7 +308,7 @@ function sendText() {
     var whom = "2: ";
     if (isInitiator) whom = "1: "; 
     var data = whom + document.getElementById("text").value +"\n";
-    chatbox.append(data);
+    chatbox.insertBefore(data, chatbox.firstChild);
     dataChannel.send(chatbox);
     document.getElementById("text").value = "";
 }
