@@ -52,7 +52,7 @@ function handleKey(evt) {
 
 function sendText() {
     var whom = "2: ";
-    if (initiator) whom = "1: "; 
+    if (isInitiator) whom = "1: "; 
     var data = whom + document.getElementById("text").value;
     dataChannel.send(data);
     document.getElementById("text").value = "";
