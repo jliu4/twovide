@@ -29,7 +29,7 @@ iceServers.push({
 });
 
 var config = {'iceServers': iceServers},
-    //roomURL = document.getElementById('url'),
+    roomURL = document.getElementById('url'),
     localVideo = document.getElementsByTagName('video')[0],
     remoteVideo = document.getElementsByTagName('video')[1],
     photo = document.getElementById('photo'),

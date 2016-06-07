@@ -29,7 +29,7 @@ iceServers.push({
 });
 
 var config = {'iceServers': iceServers},
-    //roomURL = document.getElementById('url'),
+    newMeetingBtn = document.getElementById('newMeeting'),
     localVideo = document.getElementsByTagName('video')[0],
     remoteVideo = document.getElementsByTagName('video')[1],
     photo = document.getElementById('photo'),
@@ -48,11 +48,20 @@ var config = {'iceServers': iceServers},
 
 // Create a random room if not already present in the URL.
 var isInitiator;
-//var room = window.location.hash.substring(1);
-var room = 'jinliu---';
-if (!room) {
-   room = window.location.hash = randomToken();
-    //room = 'jinliu';
+var room;
+newMeetingBtn.onclick = function () {
+    this.disabled = true;
+    room =  (document.getElementById('') || { }).value || 'Anonymous';
+}
+           
+
+if (!isInitiator) {
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td><strong>' + room + '</strong> starts meeting with you!</td>' +
+ '  <td><button class="join">Join</button></td>';
+    joinBtn = tr.querySelector('.join');
+    joinRoomBtn.onclick = function () {
+                this.disabled = true;
 }
 
 
