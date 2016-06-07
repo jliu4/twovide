@@ -336,15 +336,15 @@ function renderPhoto(data) {
 }
 
 function setCanvasDimensions() {
-    if (localVideo.videoWidth == 0) {
-        setTimeout(setCanvasDimensions, 200);
+    if (localVideo.width == 0) {
+        setTimeout(setCanvasDimensions, width);
         return;
     }
     
-    console.log('video width:', localVideo.videoWidth, 'height:', localVideo.videoHeight)
+    console.log('video width:', localVideo.width, 'height:', localVideo.height)
 
-    width = localVideo.videoWidth / 2;
-    height = localVideo.videoHeight / 2;
+   // width = localVideo.videoWidth / 2;
+   // height = localVideo.videoHeight / 2;
   
 }
 
