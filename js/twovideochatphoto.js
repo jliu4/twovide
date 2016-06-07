@@ -308,8 +308,8 @@ function sendText() {
     var whom = "2: ";
     if (isInitiator) whom = "1: "; 
     var data = whom + document.getElementById("text").value +"\n";
-    chatbox.insertBefore(data, chatbox.firstChild);
-    dataChannel.send(chatbox);
+    //chatbox.insertBefore(data, chatbox.firstChild);
+    dataChannel.send(data);
     document.getElementById("text").value = "";
 }
 function snapPhoto() {
