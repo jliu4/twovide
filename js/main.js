@@ -330,7 +330,7 @@ function renderPhoto(data) {
     trail.insertBefore(canvas, trail.firstChild);
 
     var context = canvas.getContext('2d');
-    var img = context.createImageData(photoContextW, photoContextH);
+    var img = context.createImageData(width, height);
     img.data.set(data);
     context.putImageData(img, 0, 0);
 }
