@@ -251,6 +251,7 @@ function onRemoteStreamAdded(event) {
     remoteVideo.setAttribute('height',height);
     remoteVideo.setAttribute('width',width);
     remoteVideo.srcObject = event.streams[0];
+    remoteVideo.play();
 }
 
 function onDataChannelCreated(channel) {
