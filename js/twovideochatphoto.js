@@ -281,7 +281,9 @@ function receiveData() {
             el.insertBefore(textNode,el.firstChild);
             //chatFrameDocument.write(event.data);
            // document.getElementById("chatbox").contentWindow.scrollByPages(1);
-            chatbox.insertBefore(el, chatbox.firstChild);
+            //chatbox.insertBefore(el, chatbox.firstChild);
+           
+            chatbox.appendChild(el);
             buf = window.buf = new Uint8ClampedArray(parseInt(event.data));
             count = 0;
             console.log('Expecting a total of ' + buf.byteLength + ' bytes');
