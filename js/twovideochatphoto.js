@@ -144,7 +144,7 @@ function grabWebCamVideo() {
 }    
         //stream type is MediaStream
 function successCallback(stream) {
-    //localVideo.src =  window.URL.createObjectURL(stream);
+    localVideo.src =  window.URL.createObjectURL(stream);
     localVideo.srcObject = stream;
     localStream = stream;
     if (localPC && localPC !=undefined ) localPC.addStream(stream);
@@ -252,6 +252,7 @@ function onRemoteStreamAdded(event) {
     remoteVideo.setAttribute('height',height);
     remoteVideo.setAttribute('width',width);
     remoteVideo.srcObject = event.streams[0];
+    remoteVideo.src = window.URL.createObjectURL( event.streams[0]);
     remoteVideo.play();
 }
 
@@ -312,7 +313,7 @@ function handleKey(evt) {
 function sendText() {
     var whom = "2: ";
     if (isInitiator) whom = "1: "; 
-    var data = document.getElementById("text").value +"\n";
+    var data = whom + document.getElementById("text").value + "\n";
        dataChannel.send(data);
     document.getElementById("text").value = "";
 }
