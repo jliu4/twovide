@@ -312,7 +312,7 @@ function handleKey(evt) {
 function sendText() {
     var whom = "2: ";
     if (isInitiator) whom = "1: "; 
-    var data = document.getElementById("text").value;
+    var data = document.getElementById("text").value + "\n";
        dataChannel.send(data);
     document.getElementById("text").value = "";
 }
