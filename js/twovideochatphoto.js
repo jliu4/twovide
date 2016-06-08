@@ -278,12 +278,12 @@ function receiveData() {
         if (typeof event.data === 'string') {
             
             var textNode = document.createTextNode(event.data);
-            el.insertBefore(textNode,el.firstChild);
+
+            el.appendChild(textNode);
             //chatFrameDocument.write(event.data);
            // document.getElementById("chatbox").contentWindow.scrollByPages(1);
-            //chatbox.insertBefore(el, chatbox.firstChild);
+            chatbox.insertBefore(el, chatbox.firstChild);
            
-            chatbox.appendChild(el);
             buf = window.buf = new Uint8ClampedArray(parseInt(event.data));
             count = 0;
             console.log('Expecting a total of ' + buf.byteLength + ' bytes');
