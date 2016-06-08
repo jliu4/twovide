@@ -1,20 +1,10 @@
-﻿<!--
-> Muaz Khan     - https://github.com/muaz-khan 
-> MIT License   - https://www.webrtc-experiment.com/licence/
-> Experiments   - https://github.com/muaz-khan/WebRTC-Experiment/tree/master/chat-hangout
--->
+﻿<!DOCTYPE html>
+<html lang="en">
 
-<!DOCTYPE html>
-<html id="home" lang="en">
-
-    <head>
-        
+    <head>        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta charset="utf-8">
-        
+        <meta charset="utf-8">     
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <link rel="stylesheet" href="https://cdn.webrtc-experiment.com/style.css">
-        
         <style>
             input {
                 border: 1px solid #d9d9d9;
@@ -44,23 +34,9 @@
                 margin: 1em -2em;
             }
         </style>
-        <script>
-            document.createElement('article');
-            document.createElement('footer');
-        </script>
     </head>
 
     <body>
-        <article>
-            <header style="text-align: center;">
-               
-            </header>
-
-            <div class="github-stargazers"></div>
-            
-            <section class="experiment">
-
-                <!-- <HTML code for you> ::: just copy this section! -->
                 <table class="visible">
                     <tr>
                         <td style="text-align: right;">
@@ -93,29 +69,11 @@
                     </tr>
                 </table>
                 <table id="chat-output" class="hidden"></table>
-            
-                <p>
-                    A text chat-hangout experiment where all participants can share text messages in a group!
-                </p>
-            </section>
 
             <script src="https://cdn.webrtc-experiment.com/firebase.js"> </script>
             <script src="https://cdn.webrtc-experiment.com/RTCPeerConnection-v1.5.js"> </script>
             <script src="../js/hangout.js"> </script>
             <script src="../js/hangout-ui.js"> </script>
 			
-            <!-- </HTML code for you> ::: end copy this section! -->
-
-            <section style="border: 1px solid rgb(189, 189, 189); border-radius: .2em; margin: 1em 3em;">
-                <h2 id="feedback" style="border-bottom: 1px solid rgb(189, 189, 189); padding: .2em .4em;">Feedback</h2>
-
-                <div>
-                    <textarea id="message"
-                              style="border: 1px solid rgb(189, 189, 189); height: 8em; margin: .2em; outline: none; resize: vertical; width: 98%;"
-                              placeholder="Have any message? Suggestions or something went wrong?"></textarea>
-                </div>
-                <button id="send-message" style="font-size: 1em;">Send Message</button>
-            </section>
-            
     </body>
 </html>
