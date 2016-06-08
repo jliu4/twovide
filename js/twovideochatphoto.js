@@ -35,8 +35,8 @@ var config = {'iceServers': iceServers},
     photo = document.getElementById('photo'),
     photoContext = photo.getContext('2d'),
     trail = document.getElementById('trail'),
-    snapBtn = document.getElementById('snap'),
-    sendBtn = document.getElementById('send'),
+    snapAndSendBtn = document.getElementById('snapAndSend'),
+    //sendBtn = document.getElementById('send'),
     chatbox = document.getElementById("chatbox");
     //text =  document.getElementById("text");
 
