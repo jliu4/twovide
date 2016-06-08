@@ -1,3 +1,8 @@
+/*
+ *  Copyright (c) 2016 Author: Jin Liu. All Rights Reserved.
+ *
+ *  
+ */
 var os = require('os');
 var static = require('node-static');
 var http = require('http');

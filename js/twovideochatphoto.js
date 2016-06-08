@@ -29,13 +29,14 @@ iceServers.push({
 });
 
 var config = {'iceServers': iceServers},
-    //roomURL = document.getElementById('url'),
+    roomURL = document.getElementById('url'),
     localVideo = document.getElementsByTagName('video')[0],
     remoteVideo = document.getElementsByTagName('video')[1],
     photo = document.getElementById('photo'),
     photoContext = photo.getContext('2d'),
     trail = document.getElementById('trail'),
-    snapAndSendBtn = document.getElementById('snapAndSend'),
+    snapBtn = document.getElementById('snap'),
+    sendBtn = document.getElementById('send'),
     chatbox = document.getElementById("chatbox");
     //text =  document.getElementById("text");
 
@@ -48,8 +49,8 @@ var config = {'iceServers': iceServers},
 
 // Create a random room if not already present in the URL.
 var isInitiator;
-//var room = window.location.hash.substring(1);
-var room = 'jinliu---';
+var room = window.location.hash.substring(1);
+//var room = 'jinliu---';
 if (!room) {
    room = window.location.hash = randomToken();
     //room = 'jinliu';
