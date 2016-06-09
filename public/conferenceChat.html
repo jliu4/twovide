@@ -113,7 +113,7 @@
             joinRoomBtn.setAttribute('data-roomToken', room.broadcaster);
             joinRoomBtn.onclick = function () {
                 this.disabled = true;
-                hangupBtn.disabled = false;
+                //hangupBtn.disabled = false;
                 var broadcaster = this.getAttribute('data-broadcaster');
                 var roomToken = this.getAttribute('data-roomToken');
                 captureUserMedia(function () {
@@ -194,7 +194,7 @@
     };
     newRoomBtn.onclick = function () {
         this.disabled = true;
-        hangupBtn.disabled = false;
+        //hangupBtn.disabled = false;
         captureUserMedia(function () {
             conferenceUI.createRoom({
                 userName: prompt('Enter your name', 'username'),
