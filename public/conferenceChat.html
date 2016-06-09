@@ -17,7 +17,7 @@
 <section>                
     <input type="text" id="conference-name">
         <button id="setup-new-room" class="setup">Setup New Conference</button>
-        <button id="hangup" disabled>Hangup</button>
+        <!--button id="hangup" disabled>Hangup</button-->
 </section>               
 <!-- list of all available conferencing rooms --> <!--jliutodo:show the room-list-->
 <table style="width: 50%;" id="rooms-list"></table>  
@@ -25,7 +25,7 @@
     <tr>
         <td style="text-align: center;">
         <input type="text" id="chat-message" disabled>
-        <button id="post-chat-message">Post Message</button>
+        <!--button id="post-chat-message">Post Message</button-->
         </td>
     </tr>
     </table>
@@ -36,8 +36,8 @@
 <script>   
     var newRoomBtn=document.getElementById('setup-new-room');
     newRoomBtn.disabled = false;
-    var hangupBtn=document.getElementById('hangup');
-   if (hangupBtn) hangupBtn.onclick = hangupHandler;
+    //var hangupBtn=document.getElementById('hangup');
+   //if (hangupBtn) hangupBtn.onclick = hangupHandler;
     var joinRoomBtn;
     var videoWidth = 240;
     var videoHeight = 240; 
@@ -120,7 +120,7 @@
                     conferenceUI.joinRoom({
                         roomToken: roomToken,
                         joinUser: broadcaster,
-                        userName: prompt('Enter you name', 'user name')
+                        userName: prompt('Enter you name', 'join name')
                     });
                 });
                 hideUnnecessaryStuff();
@@ -197,25 +197,14 @@
         hangupBtn.disabled = false;
         captureUserMedia(function () {
             conferenceUI.createRoom({
-                userName: prompt('Enter your name', 'Anonymous'),
+                userName: prompt('Enter your name', 'username'),
                 roomName: (document.getElementById('conference-name') || { }).value || 'Anonymous'
             });
         });
         hideUnnecessaryStuff();
     };
 
-    function hangupHandler(){
-        conferenceUI.leaveRoom();
-        //conferenceUI.leave( );
-        hangupBtn.disabled = true;
-        newRoomBtn.disabled = false;
-        //var joinButton = document.querySelector('button[data-roomToken="' + room.roomToken + '"]');
-        if (joinRoomBtn) {
-         joinRoomBtn.disabled = false
-        }
-        config.onRemoteStreamEnded(stream);
-    };
-
+   
     function captureUserMedia(callback) {
         var video = document.createElement('video');
         video.setAttribute('autoplay', false);

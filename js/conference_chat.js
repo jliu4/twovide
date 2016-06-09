@@ -3,8 +3,7 @@
 
 var conference = function(config) {
     var self = {
-        userToken: uniqueToken(),
-        userName: 'UserName'
+        userToken: uniqueToken()
     };
     var channels = '--', isbroadcaster;
     var isGetNewRoom = true;
@@ -301,6 +300,7 @@ var conference = function(config) {
         },
         joinRoom: function(_config) {
             self.roomToken = _config.roomToken;
+            self.userName = _config.userName;
             isGetNewRoom = false;
 
             self.joinedARoom = true;
