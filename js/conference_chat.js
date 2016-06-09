@@ -328,7 +328,7 @@ var conference = function(config) {
                     RTCDataChannels[i].send(data);
                 }
             }
-        }
+        },
         //leaveRoom: leave
         leaveRoom: function(){
             leave();
