@@ -65,6 +65,9 @@ var conference = function(config) {
 
         var peerConfig = {
             attachStream: config.attachStream, 
+            //candidate is type of _RTCIceCandidate
+            //it will call on each new ICE candidate
+            //it can use SIP or any other signaling method to send these ICE candidates 
             onICE: function(candidate) {
                 //signal channel to send the candidate to the peer.
                 socket.send({
@@ -76,6 +79,7 @@ var conference = function(config) {
                     }
                 });
             },
+            //it will called as soon as peer.ontrack event fire.
             onRemoteStream: function(stream) {
                 if (!stream) return;
 
@@ -86,6 +90,7 @@ var conference = function(config) {
                 _config.stream = stream;
                 onRemoteStreamStartsFlowing();
             },
+            //it will called when remote stream stops flowing
             onRemoteStreamEnded: function(stream) {
                 if (config.onRemoteStreamEnded)
 
@@ -94,10 +99,17 @@ var conference = function(config) {
         };
 
         function initPeer(offerSDP) {
+            //offerSDP is only useful for answer. As soon as you received offer sdp send by offerer;
+            //offerSDP must be an object and look like
+            //{ type: 'offer',
+            //  sdp: '.....offerer sdp......'}
             if (!offerSDP) {
                 peerConfig.onOfferSDP = sendsdp;
             } else {
+                //after successfully creating offer SDP, 
+                //An object of type RTCSessionDescription will be passed over this method
                 peerConfig.offerSDP = offerSDP;
+                //it will call after successfully creating answer SDP.
                 peerConfig.onAnswerSDP = sendsdp;
             }
             mypeer = MyPeerConnection(peerConfig);
@@ -277,6 +289,7 @@ var conference = function(config) {
                 joinUser: _config.joinUser
             });
         },
+        //leaveRoom: leave
         leaveRoom: function(){
             leave();
         }

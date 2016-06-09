@@ -142,6 +142,7 @@ var MyPeerConnection = function(options) {
             sessionDescription.sdp = preferOpus(sessionDescription.sdp);
             peer.setLocalDescription(sessionDescription);
             options.onAnswerSDP(sessionDescription);
+            //sessionDescription.type === 'answer'
             console.debug('answer-sdp', sessionDescription.sdp);
         }, onSdpError); //, sdpConstraints);
     }
