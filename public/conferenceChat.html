@@ -124,7 +124,7 @@
                         userName: prompt('Enter you name', 'join name')
                     });
                 });
-                hideUnnecessaryStuff();
+                //hideUnnecessaryStuff();
             };
         },
         onChannelOpened: function(/* channel */) {
@@ -199,10 +199,9 @@
         captureUserMedia(function () {
             conferenceUI.createRoom({
                 roomName: (document.getElementById('conference-name') || { }).value || 'Anonymous'
-                //userName = roomName
             });
         });
-        hideUnnecessaryStuff();
+        //hideUnnecessaryStuff();
     };
 
    
