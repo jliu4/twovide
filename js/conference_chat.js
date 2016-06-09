@@ -293,7 +293,7 @@ var conference = function(config) {
         createRoom: function(_config) {
             self.roomName = _config.roomName || 'Anonymous';
             self.roomToken = uniqueToken();
-            if (_config.userName) self.userName = _config.userName;
+            self.userName = _config.roomName;
             isbroadcaster = true;
             isGetNewRoom = false;
             startBroadcasting();

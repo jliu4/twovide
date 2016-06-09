@@ -197,8 +197,8 @@
         //hangupBtn.disabled = false;
         captureUserMedia(function () {
             conferenceUI.createRoom({
-                roomName: (document.getElementById('conference-name') || { }).value || 'Anonymous',
-                userName = roomName
+                roomName: (document.getElementById('conference-name') || { }).value || 'Anonymous'
+                //userName = roomName
             });
         });
         hideUnnecessaryStuff();
