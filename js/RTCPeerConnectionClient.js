@@ -166,8 +166,8 @@ var MyPeerConnection = function(options) {
         }, onSdpError); //, sdpConstraints);
     }
 
-   // if Mozilla Firefox & DataChannel; offer/answer will be created later
-    //if ((options.onChannelMessage && !moz) || !options.onChannelMessage) {
+   // if Mozilla Firefox & DataChannel; offer/answer will be created later 
+    //if ((options.onChannelMessage && !moz) || !options.onChannelMessage) { //JLIU-TODO have to cancel it out, otherwise wont work with Firefox
         createOffer();
         createAnswer();
     //}
