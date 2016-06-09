@@ -167,10 +167,10 @@ var MyPeerConnection = function(options) {
     }
 
    // if Mozilla Firefox & DataChannel; offer/answer will be created later
-    if ((options.onChannelMessage && !moz) || !options.onChannelMessage) {
+    //if ((options.onChannelMessage && !moz) || !options.onChannelMessage) {
         createOffer();
         createAnswer();
-    }
+    //}
     //options.bandwidth = { audio: 128, video: 128, data: 30 * 1000 * 1000 }
     var bandwidth = options.bandwidth;
  
