@@ -1,4 +1,6 @@
 'use strict';
+
+window.moz = !!navigator.mozGetUserMedia;
 //from https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/WebRTC_Basics 6/2/2016
 //var configuration = {
 //    iceServers: [
@@ -33,58 +35,53 @@
 9. The caller receives the answer.
 10.The caller calls RTCPeerConnection.setRemoteDescription() to set the answer as the remote description for its end of the call. It now knows the configuration of both peers. Media begins to flow as configured.
 */
-var iceServers = [];
-
-iceServers.push({  
-    urls: 'stun:stun.anyfirewall.com:3478'
-});
-iceServers.push({ 
-    urls: 'stun:stun.l.google.com:19305'
-});
-iceServers.push({
-    urls: 'turn:turn.bistri.com:80',
-    credential: 'homeo',
-    username: 'homeo'
-});
-
-iceServers.push({
-    urls: 'turn:turn.anyfirewall.com:443?transport=tcp',
-    credential: 'webrtc',
-    username: 'webrtc'
-});
-
-var iceServersObject = {
-    iceServers: iceServers
-};
 
 var MyPeerConnection = function(options) {
+    var iceServers = [];
+    if (moz) {
+        iceServers.push({
+            urls: 'stun:23.21.150.121'
+        });
+
+        iceServers.push({
+            urls: 'stun:stun.services.mozilla.com'
+        });
+    }
+
+    if (!moz) {
+        iceServers.push({
+            urls: 'stun:stun.l.google.com:19302'
+        });
+
+        iceServers.push({
+            urls: 'stun:stun.anyfirewall.com:3478'
+        });
+    }
+
+    iceServers.push({
+        urls: 'turn:turn.bistri.com:80',
+        credential: 'homeo',
+        username: 'homeo'
+    });
+
+    iceServers.push({
+        urls: 'turn:turn.anyfirewall.com:443?transport=tcp',
+        credential: 'webrtc',
+        username: 'webrtc'
+    });
+
+    var iceServers = {
+        iceServers: iceServers
+    };
+
     var optional = {
         optional: []
     };
     //iceServers are used during the finding of the ICE candidates.
-    var peer = new RTCPeerConnection(iceServersObject,optional);
+    var peer = new RTCPeerConnection(iceServers,optional);
 
-    //event is of type RTCTrackEvent, this event is sent when a new incoming mediaStreamTrack has
-    //been created and associated with an RTCRtpRecever object which has been added to the set or recerivers on connection
-    //it handles the mediatrack once it is received frim the remote peer.
-    peer.ontrack = function(event) {
-        //remoteMediaStream is mediaStream type
-            var remoteMediaStream = event.streams[0];
-            //JLIU-TODO event
-            //console.debug('on:add:stream', remoteMediaStream);
-            //need to removeTrack to trigger this one.
-            remoteMediaStream.onremovetrack = function(event) {
-            console.log("removeTrack",event);
-                if (options.onRemoteStreamEnded) {
-                    options.onRemoteStreamEnded(remoteMediaStream);
-                }
-            };
-  
-            if (options.onRemoteStream) {
-                options.onRemoteStream(remoteMediaStream);             
-            }
+    openOffererChannel();
 
-    };
     //setup ice handling
     //when the browser finds an ice candiate we send it to another peer, as they are received.
     //an event will be fired once the ICE framework has found some “candidates” that will allow you to connect with a peer. 
@@ -92,6 +89,8 @@ var MyPeerConnection = function(options) {
     //When the callback is executed, we must use the signal channel to send the Candidate to the peer. 
     //On Chrome, multiple ICE candidates are usually found, we only need one so I typically send the first one then remove the handler. 
     //Firefox includes the Candidate in the Offer SDP.
+
+
     peer.onicecandidate = function(event) {
         if (event.candidate) {
             options.onICE(event.candidate);
@@ -103,6 +102,25 @@ var MyPeerConnection = function(options) {
         peer.addStream(options.attachStream);
     }
   
+
+    //event is of type RTCTrackEvent, this event is sent when a new incoming mediaStreamTrack has
+    //been created and associated with an RTCRtpRecever object which has been added to the set or recerivers on connection
+    //it handles the mediatrack once it is received frim the remote peer.
+    peer.ontrack = function(event) {
+        //remoteMediaStream is mediaStream type
+        var remoteMediaStream = event.streams[0];
+        //JLIU-TODO event
+        //console.debug('on:add:stream', remoteMediaStream);
+        //need to removeTrack to trigger this one.
+        remoteMediaStream.onremovetrack = function() {
+            if (options.onRemoteStreamEnded) options.onRemoteStreamEnded(remoteMediaStream);
+        };
+  
+        if (options.onRemoteStream) options.onRemoteStream(remoteMediaStream);             
+
+        console.debug('on:add:stream', remoteMediaStream);
+    };
+
     // Set up audio and video regardless of what devices are present.
     // Disable comfort noise for maximum audio quality.     
     var sdpConstraints = {
@@ -147,6 +165,11 @@ var MyPeerConnection = function(options) {
         }, onSdpError); //, sdpConstraints);
     }
 
+   // if Mozilla Firefox & DataChannel; offer/answer will be created later
+    if ((options.onChannelMessage && !moz) || !options.onChannelMessage) {
+        createOffer();
+        createAnswer();
+    }
     //options.bandwidth = { audio: 128, video: 128, data: 30 * 1000 * 1000 }
     var bandwidth = options.bandwidth;
  
@@ -174,20 +197,18 @@ var MyPeerConnection = function(options) {
     // DataChannel management
     var channel;
 
-    if (!!options.onChannelMessage) {
-        peer.ondatachannel = function(event) {
-            channel = event.channel;
-            setChannelEvents();
-        };
-        openOffererChannel();
+       function openOffererChannel() {
+        if (!options.onChannelMessage)
+            return;
+
+        _openOffererChannel();
     }
-        
-    createOffer();
-    createAnswer();
-  
-    function openOffererChannel() {
-        //sending direct message to another peer
-        channel = peer.createDataChannel(options.channel || 'RTCDataChannel', {});
+
+    function _openOffererChannel() {
+        // protocol: 'text/chat', preset: true, stream: 16
+        // maxRetransmits:0 && ordered:false
+        var dataChannelDict = { };
+        channel = peer.createDataChannel(options.channel || 'sctp-channel', dataChannelDict);
         setChannelEvents();
     }
 
@@ -197,10 +218,7 @@ var MyPeerConnection = function(options) {
         };
 
         channel.onopen = function() {
-            if (options.onChannelOpened && !options.onChannelOpenInvoked) {
-                options.onChannelOpenInvoked = true;
-                options.onChannelOpened(channel);
-            }
+            if (options.onChannelOpened) options.onChannelOpened(channel);
         };
         channel.onclose = function(event) {
             if (options.onChannelClosed) options.onChannelClosed(event);
@@ -211,6 +229,17 @@ var MyPeerConnection = function(options) {
             if (options.onChannelError) options.onChannelError(event);
 
             console.error('WebRTC DataChannel error', event);
+        };
+    }
+
+    if (options.onAnswerSDP && options.onChannelMessage) {
+        openAnswererChannel();
+    }
+
+    function openAnswererChannel() {
+        peer.ondatachannel = function(event) {
+            channel = event.channel;
+            setChannelEvents();
         };
     }
 
