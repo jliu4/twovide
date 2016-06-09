@@ -1,6 +1,7 @@
 'use strict';
 
 window.moz = !!navigator.mozGetUserMedia;
+if (moz) console.debug("MOZ");
 //from https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/WebRTC_Basics 6/2/2016
 //var configuration = {
 //    iceServers: [

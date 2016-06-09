@@ -125,7 +125,7 @@ var conference = function(config) {
             RTCDataChannels[RTCDataChannels.length] = channel;
             channel.send(JSON.stringify({
                 message: 'Hi, I\'m <strong>' + self.userName + '</strong>!',
-                sender: self.userName //JLIU-TODO userName change to roomName.
+                sender: self.userName 
             }));
 
             if (config.onChannelOpened) config.onChannelOpened(channel);
