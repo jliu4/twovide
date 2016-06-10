@@ -104,7 +104,7 @@ var MyPeerConnection = function(options) {
     }
   
         peer.onaddstream = function(event) {
-            setTimeout(function() {
+            //setTimeout(function() {
                 var remoteMediaStream = event.stream;
 
                 // onRemoteStreamEnded(MediaStream)
@@ -116,7 +116,7 @@ var MyPeerConnection = function(options) {
                 if (options.onRemoteStream) options.onRemoteStream(remoteMediaStream);
 
                 //console.debug('on:add:stream', remoteMediaStream);
-            }, 2000);
+            //}, 2000);
         };
 
 
