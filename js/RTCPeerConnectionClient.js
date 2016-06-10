@@ -108,6 +108,7 @@ var MyPeerConnection = function(options) {
     //been created and associated with an RTCRtpRecever object which has been added to the set or recerivers on connection
     //it handles the mediatrack once it is received frim the remote peer.
     peer.ontrack = function(event) {
+        setTimeout(function(){
         //remoteMediaStream is mediaStream type
         var remoteMediaStream = event.streams[0];
         //JLIU-TODO event
@@ -120,6 +121,7 @@ var MyPeerConnection = function(options) {
         if (options.onRemoteStream) options.onRemoteStream(remoteMediaStream);             
 
         console.debug('on:add:stream', remoteMediaStream);
+    },2000);
     };
 
     // Set up audio and video regardless of what devices are present.
