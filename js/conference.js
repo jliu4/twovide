@@ -167,7 +167,7 @@ var conference = function(config) {
                     });
             }
             
-            if (false && response.left) { //JLIU-TODO
+            if (response.left) { //JLIU-TODO
                 if (mypeer && mypeer.peer) {
                     mypeer.peer.close();
                     mypeer.peer = null;
