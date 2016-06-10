@@ -103,10 +103,27 @@ var MyPeerConnection = function(options) {
         peer.addStream(options.attachStream);
     }
   
+        peer.onaddstream = function(event) {
+            setTimeout(function() {
+                var remoteMediaStream = event.stream;
+
+                // onRemoteStreamEnded(MediaStream)
+                remoteMediaStream.onended = function() {
+                    if (options.onRemoteStreamEnded) options.onRemoteStreamEnded(remoteMediaStream);
+                };
+
+                // onRemoteStream(MediaStream)
+                if (options.onRemoteStream) options.onRemoteStream(remoteMediaStream);
+
+                //console.debug('on:add:stream', remoteMediaStream);
+            }, 2000);
+        };
+
 
     //event is of type RTCTrackEvent, this event is sent when a new incoming mediaStreamTrack has
     //been created and associated with an RTCRtpRecever object which has been added to the set or recerivers on connection
     //it handles the mediatrack once it is received frim the remote peer.
+     if (1==0) {
     peer.ontrack = function(event) {
         setTimeout(function(){
         //remoteMediaStream is mediaStream type
@@ -123,7 +140,7 @@ var MyPeerConnection = function(options) {
         console.debug('on:add:stream', remoteMediaStream);
     },2000);
     };
-
+}
     // Set up audio and video regardless of what devices are present.
     // Disable comfort noise for maximum audio quality.     
     var sdpConstraints = {
