@@ -81,13 +81,10 @@
             video.play();
         },
 
-        onRemoteStreamEnded: function (stream, video) {
-            //var video = document.getElementById(stream.id);
-            //var video = strem.id;
+        onRemoteStreamEnded: function (stream) {
+            var video = document.getElementById(stream.id);
+         
             if (video) video.parentNode.removeChild(video);
-           // if (video.parentNode && video.parentNode.parentNode && video.parentNode.parentNode.parentNode) {
-            //    video.parentNode.parentNode.parentNode.removeChild(video.parentNode.parentNode);
-            //}
         },
 
         onRoomFound: function (room) {
