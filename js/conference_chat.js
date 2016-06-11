@@ -193,7 +193,7 @@ var conference = function(config) {
                     });
             }
             
-            if (response.left) { //JLIU-TODO
+            if (response.left) { 
                 if (mypeer && mypeer.peer) {
                     mypeer.peer.close();
                     mypeer.peer = null;
