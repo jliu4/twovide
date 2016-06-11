@@ -8,8 +8,8 @@ var conference = function(config) {
     var channels = '--', isbroadcaster;
     var isGetNewRoom = true;
     var sockets = [];
-    var defaultSocket = { };
- 
+    var defaultSocket = { }, RTCDataChannels = [];
+
     function openDefaultSocket() {
         defaultSocket = config.openSocket({
             onmessage: onDefaultSocketResponse,
@@ -30,7 +30,9 @@ var conference = function(config) {
             channels += response.userToken + '--';
             openSubSocket({
                 isofferer: true,
-                channel: response.channel || response.userToken
+                channel: response.channel || response.userToken,
+                //JLIU-TODO from hangout.js
+                closeSocket: true
             });
         }
 
@@ -79,6 +81,10 @@ var conference = function(config) {
                     }
                 });
             },
+            onChannelOpened: onChannelOpened,
+            onChannelMessage: function(event) {
+                config.onChannelMessage(JSON.parse(event.data));
+            },
             //it will called as soon as peer.ontrack event fire.
             onRemoteStream: function(stream) {
                 if (!stream) return;
@@ -114,7 +120,27 @@ var conference = function(config) {
             }
             mypeer = MyPeerConnection(peerConfig);
         }
-        
+
+        function onChannelOpened(channel) {
+            RTCDataChannels[RTCDataChannels.length] = channel;
+            channel.send(JSON.stringify({
+                message: 'Hi, I\'m <strong>' + self.userName + '</strong>!',
+                sender: self.userName 
+            }));
+
+            if (config.onChannelOpened) config.onChannelOpened(channel);
+
+            if (isbroadcaster && channels.split('--').length > 3) {
+                /* broadcasting newly connected participant for video-conferencing! */
+                defaultSocket.send({
+                    newParticipant: socket.channel,
+                    userToken: self.userToken
+                });
+            }
+
+            gotstream = true;
+        }
+
         function afterRemoteStreamStartedFlowing() {
             gotstream = true;
 
@@ -219,6 +245,7 @@ var conference = function(config) {
         } 
     }
     
+
     window.addEventListener('beforeunload', function (e) {
         leave();
     }, false);
@@ -266,13 +293,14 @@ var conference = function(config) {
         createRoom: function(_config) {
             self.roomName = _config.roomName || 'Anonymous';
             self.roomToken = uniqueToken();
-
+            self.userName = _config.roomName;
             isbroadcaster = true;
             isGetNewRoom = false;
             startBroadcasting();
         },
         joinRoom: function(_config) {
             self.roomToken = _config.roomToken;
+            self.userName = _config.userName;
             isGetNewRoom = false;
 
             self.joinedARoom = true;
@@ -287,6 +315,19 @@ var conference = function(config) {
                 userToken: self.userToken,
                 joinUser: _config.joinUser
             });
+        },
+        send: function(message) {
+            var length = RTCDataChannels.length,
+                data = JSON.stringify({
+                    message: message,
+                    sender: self.userName
+                });
+            if (!length) return;
+            for (var i = 0; i < length; i++) {
+                if (RTCDataChannels[i].readyState == 'open') {
+                    RTCDataChannels[i].send(data);
+                }
+            }
         },
         //leaveRoom: leave
         leaveRoom: function(){
