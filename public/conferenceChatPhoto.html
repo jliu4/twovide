@@ -17,34 +17,46 @@
 <section>                
     <input type="text" id="conference-name" size=10>
         <button id="setup-new-room" class="setup">Setup New Conference</button>
-        <!--button id="hangup" disabled>Hangup</button-->
+        <button id="snap" disabled>Snap Picture</button>
+        <button id="send" disabled>Send Picture</button>
 </section>               
 <!-- list of all available conferencing rooms --> <!--jliutodo:show the room-list-->
 <table style="width: 30%;" id="rooms-list"></table>  
 <table style=id="chat-table" class="center-table hidden">
     <tr>
-        <td style="text-align: center; position: absolute; bottom: 8px; left:70%; font-size:10px;font-family:sans-serif;">
+        <td style="text-align: center; position: absolute; bottom: 8px; left:70%; font-size:10px; font-family:sans-serif;">
         <input type="text" id="chat-message" disabled>
         <!--button id="post-chat-message">Post Message</button-->
         </td>
     </tr>
     </table>
-<table style="background-color:lightgrey;position:absolute;left:70%;bottom: 50px"; font-size:10px;font-family:sans-serif; 
-id="chat-output" class="hidden"></table>          
+<table style="background-color:lightgrey;position:absolute;left:70%;bottom: 50px"; font-size:10px; font-family:sans-serif; id="chat-output" class="hidden"></table>          
 <!-- local/remote videos container -->
 <div id="videos-container"></div>
 <canvas id="photo"></canvas>
 <div id="pcitures"></div>
         
 <script>   
-    var newRoomBtn=document.getElementById('setup-new-room');
+    var newRoomBtn=document.getElementById('setup-new-room'),
+        photo = document.getElementById('photo'),
+        photoContext = photo.getContext('2d'),
+        trail = document.getElementById('pictures');
+
+
     newRoomBtn.disabled = false;
     //var hangupBtn=document.getElementById('hangup');
    //if (hangupBtn) hangupBtn.onclick = hangupHandler;
     var joinRoomBtn;
+    var photoIdImg;
     var videoWidth = 240;
     var videoHeight = 240; 
     var sendPicture = false;
+
+    document.getElementById('snap').onclick = function () {
+      
+        show(photo);
+    } 
+    
     //step 1: initialize global array-like object, which will store onmessage callbacks
     var onMessageCallbacks = {};
 
@@ -215,6 +227,10 @@ id="chat-output" class="hidden"></table>
         video.setAttribute('controls', true);
         video.setAttribute('height',videoHeight);
         video.setAttribute('width',videoWidth);
+        photo.setAttribute('height', vidoHeight);
+        photo.setAttribute('width', videoWidth);       
+        photoContext.drawImage(video,0,0,videoWidth,vidoeHeight);
+        photoIdImg = photoId.getImageData(0, 0, 10, 10),
         videosContainer.insertBefore(video, videosContainer.firstChild);
        //the second paramenter is a callback that accept the stream coming from the user's device.
         navigator.mediaDevices.getUserMedia(constraints).then(successCallback).catch(errorCallback);
