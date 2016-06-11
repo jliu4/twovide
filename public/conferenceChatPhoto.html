@@ -56,7 +56,7 @@
       
         show(photo);
     } 
-    
+
     //step 1: initialize global array-like object, which will store onmessage callbacks
     var onMessageCallbacks = {};
 
@@ -227,7 +227,7 @@
         video.setAttribute('controls', true);
         video.setAttribute('height',videoHeight);
         video.setAttribute('width',videoWidth);
-        photo.setAttribute('height', vidoHeight);
+        photo.setAttribute('height', videoHeight);
         photo.setAttribute('width', videoWidth);       
         photoContext.drawImage(video,0,0,videoWidth,vidoeHeight);
         photoIdImg = photoId.getImageData(0, 0, 10, 10),
