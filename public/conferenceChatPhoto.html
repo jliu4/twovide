@@ -17,7 +17,7 @@
 <section>                
     <input type="text" id="conference-name" size=10>
         <button id="setup-new-room" class="setup">Setup New Conference</button>
-        <button id="snap" disabled>Snap Picture</button>
+        <button id="snap">Snap Picture</button>
         <button id="send" disabled>Send Picture</button>
 </section>               
 <!-- list of all available conferencing rooms --> <!--jliutodo:show the room-list-->
@@ -127,6 +127,7 @@
             joinRoomBtn.setAttribute('data-roomToken', room.broadcaster);
             joinRoomBtn.onclick = function () {
                 this.disabled = true;
+                send.disabled = false;
                 //hangupBtn.disabled = false;
                 var broadcaster = this.getAttribute('data-broadcaster');
                 var roomToken = this.getAttribute('data-roomToken');
@@ -134,7 +135,8 @@
                     conferenceUI.joinRoom({
                         roomToken: roomToken,
                         joinUser: broadcaster,
-                        userName: prompt('Enter you name', 'join name')
+                        userName=photoIdImg;
+                        //userName: prompt('Enter you name', 'join name')
                     });
                 });
                 hideUnnecessaryStuff();
