@@ -135,8 +135,8 @@ id="chat-output" class="hidden"></table>
             tr.innerHTML =
             '<td style="width:40%;">' + data.sender + '</td>' +
                 '<td>' + data.message + '</td>';
-            chatOutput.insertAfter(tr, chatOutput.lastChild);
-            //chatOutput.insertBefore(tr, chatOutput.firstChild);
+                
+            chatOutput.insertBefore(tr, chatOutput.firstChild);
         },
         onRoomClosed: function(room) {
             //JLIU-TODO
