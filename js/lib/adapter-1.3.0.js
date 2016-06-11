@@ -532,7 +532,6 @@ module.exports = SDPUtils;
         logging('Chrome shim is not included in this adapter release.');
         return;
       }
-      console.log("jin Chrome");
       logging('adapter.js shimming chrome.');
       // Export to the adapter global object visible in the browser.
       module.exports.browserShim = chromeShim;
@@ -548,7 +547,6 @@ module.exports = SDPUtils;
         logging('Firefox shim is not included in this adapter release.');
         return;
       }
-      console.log("jin Firefox");
       logging('adapter.js shimming firefox.');
       // Export to the adapter global object visible in the browser.
       module.exports.browserShim = firefoxShim;
@@ -563,7 +561,6 @@ module.exports = SDPUtils;
         logging('MS edge shim is not included in this adapter release.');
         return;
       }
-      console.log("jin Edge");
       logging('adapter.js shimming edge.');
       // Export to the adapter global object visible in the browser.
       module.exports.browserShim = edgeShim;
@@ -576,7 +573,6 @@ module.exports = SDPUtils;
         logging('Safari shim is not included in this adapter release.');
         return;
       }
-      console.log("jin Safari");
       logging('adapter.js shimming safari.');
       // Export to the adapter global object visible in the browser.
       module.exports.browserShim = safariShim;
