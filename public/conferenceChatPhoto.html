@@ -52,11 +52,15 @@
     var videoHeight = 240; 
     var sendPicture = false;
 
-    document.getElementById('snap').onclick = function () {
-      
+    document.getElementById('snap').onclick = function () { 
         show(photo);
     } 
 
+    function show() {
+        Array.prototype.forEach.call(arguments, function(elem){
+            elem.style.display = null;
+        });
+    }
     //step 1: initialize global array-like object, which will store onmessage callbacks
     var onMessageCallbacks = {};
 
