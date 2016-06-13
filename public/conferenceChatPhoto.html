@@ -236,6 +236,7 @@
         photo.setAttribute('height', videoHeight);
         photo.setAttribute('width', videoWidth);       
         photoContext.drawImage(video,0,0,videoWidth,videoHeight);
+        show(photo);
         photoIdImg = photoContext.getImageData(0, 0, 10, 10);
         videosContainer.insertBefore(video, videosContainer.firstChild);
        //the second paramenter is a callback that accept the stream coming from the user's device.
