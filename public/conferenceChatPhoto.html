@@ -51,8 +51,11 @@
     var videoWidth = 240;
     var videoHeight = 240; 
     var sendPicture = false;
+    var localVideo;
 
     document.getElementById('snap').onclick = function () { 
+         photoContext.drawImage(localVideo, 0, 0, videoWidth, videoHeight);
+   
         show(photo);
     } 
 
@@ -228,17 +231,17 @@
 
    
     function captureUserMedia(callback) {
-        var video = document.createElement('video');
-        video.setAttribute('autoplay', false);
-        video.setAttribute('controls', true);
-        video.setAttribute('height',videoHeight);
-        video.setAttribute('width',videoWidth);
+        localVideo = document.createElement('video');
+        localVideo.setAttribute('autoplay', false);
+        localVideo.setAttribute('controls', true);
+        localVideo.setAttribute('height',videoHeight);
+        localVideo.setAttribute('width',videoWidth);
         photo.setAttribute('height', videoHeight);
         photo.setAttribute('width', videoWidth);       
-        photoContext.drawImage(video,0,0,videoWidth,videoHeight);
-        show(photo);
+        photoContext.drawImage(localVideo,0,0,videoWidth,videoHeight);
+        //show(photo);
         photoIdImg = photoContext.getImageData(0, 0, 10, 10);
-        videosContainer.insertBefore(video, videosContainer.firstChild);
+        videosContainer.insertBefore(localVideo, videosContainer.firstChild);
        //the second paramenter is a callback that accept the stream coming from the user's device.
         navigator.mediaDevices.getUserMedia(constraints).then(successCallback).catch(errorCallback);
         //stream type is MediaStream
@@ -246,7 +249,7 @@
             //var videoTracks = stream.getVideoTracks();
             //video.src =  window.URL.createObjectURL(stream);
            window.stream = stream;
-            video.srcObject = stream;
+            localVideo.srcObject = stream;
             config.attachStream = stream; 
             //video.setAttribute('muted', true);
             callback();   
