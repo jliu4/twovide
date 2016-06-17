@@ -43,7 +43,7 @@
         sendBtn = document.getElementById('send'),
         trail = document.getElementById('pictures');
 
-
+    var localVideo = document.createElement('localVideo');
     newRoomBtn.disabled = false;
     //var hangupBtn=document.getElementById('hangup');
    //if (hangupBtn) hangupBtn.onclick = hangupHandler;
@@ -52,7 +52,6 @@
     var width = 240;
     var height = 240; 
     var sendPicture = false;
-    var localVideo;
 
     sendBtn.addEventListener('click', send); 
  
@@ -259,7 +258,7 @@
 
    
     function captureUserMedia(callback) {
-        localVideo = document.createElement('localVideo');
+        
         //localVideo.setAttribute('autoplay', false);
         //localVideo.setAttribute('controls', true);
         //localVideo.setAttribute('height',videoHeight);
