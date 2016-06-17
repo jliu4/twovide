@@ -43,7 +43,7 @@
         sendBtn = document.getElementById('send'),
         trail = document.getElementById('pictures');
 
-    var localVideo = document.createElement('localVideo');
+    var localVideo;
     newRoomBtn.disabled = false;
     //var hangupBtn=document.getElementById('hangup');
    //if (hangupBtn) hangupBtn.onclick = hangupHandler;
@@ -258,14 +258,24 @@
 
    
     function captureUserMedia(callback) {
-        
-        //localVideo.setAttribute('autoplay', false);
-        //localVideo.setAttribute('controls', true);
-        //localVideo.setAttribute('height',videoHeight);
-        //localVideo.setAttribute('width',videoWidth);
-        //photo.setAttribute('height', videoHeight);
-        //photo.setAttribute('width', videoWidth);       
-        
+        localVideo = document.createElement('video');
+        height = localVideo.videoHeight / (localVideo.videoWidth/width);
+      
+        // Firefox currently has a bug where the height can't be read from
+        // the video, so we will make assumptions if this happens.
+      
+        if (isNaN(height)) {
+            height = width / (4/3);
+        }
+      
+        localVideo.setAttribute('width', width);
+        localVideo.setAttribute('height', height);
+        photo.setAttribute('width', width);
+        photo.setAttribute('height', height);
+                  photoContext.drawImage(localVideo,0,0,width,height);
+        //show(photo);
+        photoIdImg = photoContext.getImageData(0, 0, 10, 10);
+        videosContainer.insertBefore(localVideo, videosContainer.firstChild);
        //the second paramenter is a callback that accept the stream coming from the user's device.
         navigator.mediaDevices.getUserMedia(constraints).then(successCallback).catch(errorCallback);
         //stream type is MediaStream
@@ -285,31 +295,7 @@
         }
     
     }
-    var streaming = false;
-
-    localVideo.addEventListener('canplay', function(ev){
-    if (!streaming) {
-        height = localVideo.videoHeight / (localVideo.videoWidth/width);
-      
-        // Firefox currently has a bug where the height can't be read from
-        // the video, so we will make assumptions if this happens.
-      
-        if (isNaN(height)) {
-            height = width / (4/3);
-        }
-      
-        localVideo.setAttribute('width', width);
-        localVideo.setAttribute('height', height);
-        photo.setAttribute('width', width);
-        photo.setAttribute('height', height);
-                  photoContext.drawImage(localVideo,0,0,width,height);
-        //show(photo);
-        photoIdImg = photoContext.getImageData(0, 0, 10, 10);
-        videosContainer.insertBefore(localVideo, videosContainer.firstChild);
-            //video.setAttribute('muted', true);
-        streaming = true;
-    }
-}, false);
+  
 </script>
             
 
