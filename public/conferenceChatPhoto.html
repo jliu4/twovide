@@ -275,11 +275,7 @@
            window.stream = stream;
             localVideo.srcObject = stream;
             config.attachStream = stream; 
-            photoContext.drawImage(localVideo,0,0,width,height);
-        //show(photo);
-        photoIdImg = photoContext.getImageData(0, 0, 10, 10);
-        videosContainer.insertBefore(localVideo, videosContainer.firstChild);
-            //video.setAttribute('muted', true);
+
             callback();   
             
         }
@@ -306,6 +302,11 @@
         localVideo.setAttribute('height', height);
         photo.setAttribute('width', width);
         photo.setAttribute('height', height);
+                  photoContext.drawImage(localVideo,0,0,width,height);
+        //show(photo);
+        photoIdImg = photoContext.getImageData(0, 0, 10, 10);
+        videosContainer.insertBefore(localVideo, videosContainer.firstChild);
+            //video.setAttribute('muted', true);
         streaming = true;
     }
 }, false);
