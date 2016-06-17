@@ -53,7 +53,7 @@
     var height = 240; 
     var sendPicture = false;
     var localVideo;
-    
+
     sendBtn.addEventListener('click', send); 
  
     document.getElementById('snap').onclick = function () { 
@@ -266,7 +266,7 @@
         //localVideo.setAttribute('width',videoWidth);
         //photo.setAttribute('height', videoHeight);
         //photo.setAttribute('width', videoWidth);       
-        photoContext.drawImage(localVideo,0,0,videoWidth,videoHeight);
+        photoContext.drawImage(localVideo,0,0,width,height);
         //show(photo);
         photoIdImg = photoContext.getImageData(0, 0, 10, 10);
         videosContainer.insertBefore(localVideo, videosContainer.firstChild);
