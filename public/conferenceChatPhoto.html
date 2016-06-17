@@ -265,10 +265,7 @@
         //localVideo.setAttribute('width',videoWidth);
         //photo.setAttribute('height', videoHeight);
         //photo.setAttribute('width', videoWidth);       
-        photoContext.drawImage(localVideo,0,0,width,height);
-        //show(photo);
-        photoIdImg = photoContext.getImageData(0, 0, 10, 10);
-        videosContainer.insertBefore(localVideo, videosContainer.firstChild);
+        
        //the second paramenter is a callback that accept the stream coming from the user's device.
         navigator.mediaDevices.getUserMedia(constraints).then(successCallback).catch(errorCallback);
         //stream type is MediaStream
@@ -278,6 +275,10 @@
            window.stream = stream;
             localVideo.srcObject = stream;
             config.attachStream = stream; 
+            photoContext.drawImage(localVideo,0,0,width,height);
+        //show(photo);
+        photoIdImg = photoContext.getImageData(0, 0, 10, 10);
+        videosContainer.insertBefore(localVideo, videosContainer.firstChild);
             //video.setAttribute('muted', true);
             callback();   
             
