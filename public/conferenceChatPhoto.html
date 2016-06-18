@@ -76,20 +76,20 @@
             n = len / CHUNK_LEN | 0;
 
         console.log('Sending a total of ' + len + ' byte(s)');
-        dataChannel.send(len);
+        conferenceUI.send(len);
 
         // split the photo and send in chunks of about 64KB
         for (var i = 0; i < n; i++) {
             var start = i * CHUNK_LEN,
             end = (i+1) * CHUNK_LEN;
             console.log(start + ' - ' + (end-1));
-            dataChannel.send(img.data.subarray(start, end));
+            conferenceUI.send(img.data.subarray(start, end));
         }
 
         // send the reminder, if any
         if (len % CHUNK_LEN) {
             console.log('last ' + len % CHUNK_LEN + ' byte(s)');
-            dataChannel.send(img.data.subarray(n * CHUNK_LEN));
+            conferenceUI.send(img.data.subarray(n * CHUNK_LEN));
         }
     }
 
